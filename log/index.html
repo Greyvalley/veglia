@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Studio Log · Veglia · Mentium Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;1,300;1,400&family=Abel&display=swap">
+<style>
+/* Studio Log: a read-only snapshot. Nothing on this page is clickable — no links, no buttons, no hover states. */
+:root{
+  --color-bg:#ffffff;--color-surface:#f5f7fa;--color-neutral-100:#f7f9fb;--color-neutral-200:#eceff3;--color-neutral-300:#dde2e8;
+  --color-neutral-700:#605d5d;--color-neutral-800:#3f3c3c;--color-text:#201e1d;
+  --color-accent:#c54b8c;--color-accent-100:#fcf1f6;--color-accent-200:#f7dcea;--color-accent-700:#8f2a61;
+  --c-kai:#4682B4;--c-vero:#B2BEB5;--c-basti:#173D2B;
+  --font-heading:'Montserrat',system-ui,sans-serif;--font-body:'Montserrat',system-ui,sans-serif;--font-label:'Abel',sans-serif;
+  --pad-in:clamp(20px,5vw,64px);--col:1240px;--pad-x:max(var(--pad-in),calc((100vw - var(--col))/2));--pad-y:clamp(48px,7vw,96px);
+  --rule:1px solid var(--color-neutral-300);--row:1px solid var(--color-neutral-200);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font:400 18px/1.65 var(--font-body);color:var(--color-text);background:var(--color-bg);cursor:default}
+h1,h2,h3{font-family:var(--font-heading);font-weight:300;letter-spacing:-0.02em;line-height:1.15;margin:0}
+p{margin:0;text-wrap:pretty}
+ul,ol{margin:0;padding:0;list-style:none}
+strong{font-weight:500}
+em{font-style:italic}
+img{display:block;max-width:100%;-webkit-user-drag:none;pointer-events:none}
+.kicker{font:400 15px/1.3 var(--font-label);letter-spacing:.2em;text-transform:uppercase;color:var(--color-accent-700)}
+.meta{font:400 14px/1.3 var(--font-label);letter-spacing:.14em;text-transform:uppercase;color:var(--color-neutral-700)}
+.muted{color:var(--color-neutral-700)}
+.h2{font-size:clamp(30px,3.6vw,44px)}
+.lede{font-size:20px;max-width:760px}
+.section{padding:var(--pad-y) var(--pad-x);border-bottom:var(--rule)}
+.head{display:flex;flex-direction:column;gap:10px;margin-bottom:32px}
+.g-name{color:var(--color-accent-700)}
+
+/* NAV (same as the landing preview) */
+nav{display:flex;align-items:center;gap:16px 24px;flex-wrap:wrap;padding:16px var(--pad-x);border-bottom:var(--rule)}
+.wordmark{display:flex;align-items:center;gap:14px;margin-right:auto;font:400 19px/1 var(--font-label);letter-spacing:.28em}
+.wordmark img{width:40px;height:40px}
+nav .entry{font:400 15px/1 var(--font-label);letter-spacing:.14em;color:var(--color-neutral-700)}
+
+/* TITLE */
+.title{padding:clamp(48px,7vw,96px) var(--pad-x) clamp(40px,5vw,64px);border-bottom:var(--rule);display:flex;flex-direction:column;gap:18px}
+.title h1{font:200 clamp(40px,6vw,76px)/1.05 var(--font-heading);letter-spacing:.04em}
+.title .principle{font:300 clamp(20px,2.2vw,26px)/1.35 var(--font-heading);color:var(--color-accent-700);max-width:820px}
+.snap{display:inline-flex;align-self:flex-start;gap:10px;align-items:center;padding:8px 12px;border:1px solid var(--color-neutral-300);background:var(--color-surface)}
+
+/* TEAM STRIP */
+.team{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));border-top:var(--rule);border-left:var(--row)}
+@media (max-width:1100px){.team{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:640px){.team{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.card{display:flex;flex-direction:column;gap:6px;padding:20px 18px 22px;border-right:var(--row);border-bottom:var(--row)}
+.av{width:72px;height:72px;overflow:hidden;margin-bottom:8px}
+.av img{width:100%;height:100%;object-fit:cover;transform:scale(1.3);transform-origin:50% 30%}
+.av.away{background:transparent;border:2px dashed var(--color-neutral-300)}
+.card .name{font-weight:500;font-size:18px;line-height:1.3}
+.card .role{font-size:16px;line-height:1.4;color:var(--color-neutral-800)}
+.card .model{font:400 13px/1.3 var(--font-label);letter-spacing:.12em;text-transform:uppercase;color:var(--color-neutral-700);margin-top:auto;padding-top:8px}
+.card.oncall .name{font-weight:400;color:var(--color-neutral-700)}
+
+/* TAGS (status always carries a word) */
+.tag{display:inline-block;font:400 13px/1 var(--font-label);letter-spacing:.14em;text-transform:uppercase;padding:6px 8px;white-space:nowrap;vertical-align:middle}
+.tag.open{background:var(--color-accent-100);color:var(--color-accent-700)}
+.tag.todo{background:var(--color-neutral-200);color:var(--color-neutral-800)}
+.tag.away{border:1px dashed var(--color-neutral-300);color:var(--color-neutral-700)}
+.tag.dec{background:var(--color-accent-700);color:var(--color-neutral-100)}
+
+/* WHO CHIP */
+.who{display:inline-flex;align-items:center;gap:8px;font:400 14px/1.2 var(--font-label);letter-spacing:.14em;text-transform:uppercase;color:var(--color-neutral-800);white-space:nowrap}
+.who i{display:block;width:12px;height:12px;flex:none}
+.who.g{color:var(--color-accent-700)} .who.g i{background:var(--color-accent-700)}
+.who.k i{background:var(--c-kai)}
+.who.v i{background:var(--c-vero)}
+.who.b i{background:var(--c-basti)}
+.who.r i{border:1.5px dashed var(--color-neutral-700)}
+
+/* DECISIONS */
+.decisions{border-top:var(--rule);counter-reset:d}
+.decisions li{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:8px 20px;align-items:baseline;padding:16px 0;border-bottom:var(--row)}
+.decisions li::before{counter-increment:d;content:counter(d,decimal-leading-zero);font:300 26px/1 var(--font-heading);color:var(--color-accent-700)}
+.decisions .day{font:400 14px/1.3 var(--font-label);letter-spacing:.14em;text-transform:uppercase;color:var(--color-neutral-700);white-space:nowrap}
+@media (max-width:640px){.decisions li{grid-template-columns:44px minmax(0,1fr)}.decisions .day{grid-column:2}}
+
+/* TIMELINE */
+.day-block{display:grid;grid-template-columns:minmax(0,260px) minmax(0,1fr);gap:24px 56px;padding-top:28px;border-top:var(--rule)}
+.day-block + .day-block{margin-top:56px}
+@media (max-width:900px){.day-block{grid-template-columns:1fr}}
+.day-label{display:flex;flex-direction:column;gap:8px}
+.day-label .d{font:200 clamp(36px,4vw,52px)/1 var(--font-heading);color:var(--color-text)}
+.slot{padding:4px 0 26px}
+.slot + .slot{padding-top:22px;border-top:var(--row)}
+.slot h3{font-size:22px;margin:0 0 12px;font-weight:400}
+.slot h3 .meta{display:block;margin-bottom:6px}
+.entries li{display:grid;grid-template-columns:150px minmax(0,1fr);gap:4px 18px;padding:10px 0;align-items:baseline}
+.entries li.decision p{font-weight:500}
+@media (max-width:640px){.entries li{grid-template-columns:1fr}}
+.list-in{margin-top:8px;padding-left:0}
+.list-in li{display:block;padding:6px 0 6px 18px;position:relative;grid-template-columns:none}
+.list-in li::before{content:"";position:absolute;left:0;top:18px;width:8px;height:1px;background:var(--color-neutral-700)}
+
+/* DRAWINGS (plain images — not links, not zoomable) */
+.stages{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;margin-top:16px}
+@media (max-width:1100px){.stages{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:640px){.stages{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.stages figure{margin:0;display:flex;flex-direction:column;gap:8px}
+.stages img{width:100%;height:auto;aspect-ratio:3/2;border:var(--rule);background:#f6f3ec}
+.stages figcaption{font-size:15px;line-height:1.45;color:var(--color-neutral-800)}
+.stages figcaption strong{display:block;font:400 13px/1.3 var(--font-label);letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:2px}
+
+/* DROPPED + DID NOT DO */
+.rows li{padding:14px 0;border-bottom:var(--row);display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:4px 32px}
+.rows{border-top:var(--rule)}
+.rows li .what{font-weight:500}
+@media (max-width:760px){.rows li{grid-template-columns:1fr}}
+.plain li{padding:12px 0;border-bottom:var(--row)}
+.plain{border-top:var(--rule);max-width:860px}
+
+/* TASK BOARD (static) */
+.board{border-top:var(--rule)}
+.board .hd,.board li{display:grid;grid-template-columns:minmax(0,1fr) 200px 190px 130px;gap:12px 20px;align-items:center;padding:14px 0;border-bottom:var(--row)}
+.board .hd{font:400 13px/1.3 var(--font-label);letter-spacing:.14em;text-transform:uppercase;color:var(--color-neutral-700);padding:10px 0}
+.board .due{font-size:16px}
+@media (max-width:860px){
+  .board .hd{display:none}
+  .board li{grid-template-columns:minmax(0,1fr) auto;gap:8px 16px}
+  .board li .task{grid-column:1 / -1}
+  .board li .due{grid-column:1 / -1;font-size:15px;color:var(--color-neutral-700)}
+  .board li .due::before{content:"Due: "}
+}
+
+/* PRINCIPLE BAND + FOOTER */
+.band{padding:clamp(40px,6vw,80px) var(--pad-x);background:var(--color-accent-700);color:var(--color-neutral-100)}
+.band p{max-width:1000px;font:300 clamp(26px,3.6vw,44px)/1.15 var(--font-heading);letter-spacing:-.015em}
+footer{padding:32px var(--pad-x) 48px}
+footer p{font:400 13px/1.5 var(--font-label);letter-spacing:.14em;text-transform:uppercase;color:var(--color-neutral-700)}
+
+@media (max-width:640px){
+  body{font-size:18px}
+  nav .entry{font-size:13px}
+  .lede{font-size:19px}
+}
+.back{font:400 15px/1 var(--font-label);letter-spacing:.2em;text-transform:uppercase;color:#8f2a61;text-decoration:none;padding:12px 0;border-bottom:2px solid #c54b8c;cursor:pointer}
+.back:hover{color:#6a1f48}
+</style>
+</head>
+<body>
+
+<nav aria-label="Mentium Studio">
+  <div class="wordmark"><img src="img/logo.webp" alt="" width="40" height="40">MENTIUM STUDIO</div>
+  <a class="back" href="../"><span aria-hidden="true">←</span> Back to Veglia</a>
+</nav>
+
+<!-- TITLE -->
+<header class="title">
+  <span class="kicker">Studio Log</span>
+  <h1>Studio Log · Veglia</h1>
+  <p class="lede">A read-only snapshot of how Veglia was made. Every decision was made by a human; every number was checked by AI.</p>
+  <p class="muted" style="max-width:760px">One human architect. A small team of AI collaborators. One shared studio. This is the real record: what we tried, what we dropped, and who decided.</p>
+  <span class="snap meta">Snapshot · as of Oct 2, 2026</span>
+</header>
+
+<!-- TEAM -->
+<section class="section" aria-labelledby="h-team">
+  <div class="head">
+    <span class="kicker">The team</span>
+    <h2 class="h2" id="h-team">One human. Five AI collaborators.</h2>
+  </div>
+  <ul class="team">
+    <li class="card">
+      <span class="av" style="background:var(--color-accent-700)"><img src="img/av-glenda.webp" alt="" width="208" height="208"></span>
+      <span class="name g-name">Glenda Macawile-Farook</span>
+      <span class="role">Founder &amp; Architect. The only human, and the only one who decides.</span>
+      <span class="model">Human</span>
+    </li>
+    <li class="card">
+      <span class="av" style="background:var(--c-kai)"><img src="img/av-kai.webp" alt="" width="208" height="208"></span>
+      <span class="name">Kai Keller</span>
+      <span class="role">Director &amp; Team Lead. Proposals, research, writing.</span>
+      <span class="model">AI · Claude Opus 5.5</span>
+    </li>
+    <li class="card">
+      <span class="av" style="background:var(--c-vero)"><img src="img/av-vero.webp" alt="" width="208" height="208"></span>
+      <span class="name">Vero</span>
+      <span class="role">Coordinator &amp; Release Manager. The repository, the timeline, the handoffs.</span>
+      <span class="model">AI · Claude Fable 5.1</span>
+    </li>
+    <li class="card">
+      <span class="av" style="background:var(--c-basti)"><img src="img/av-basti.webp" alt="" width="208" height="208"></span>
+      <span class="name">Bastian Kraus</span>
+      <span class="role">Finance &amp; DevOps. The numbers, and the no-flattery check.</span>
+      <span class="model">AI · Codex Sol 6</span>
+    </li>
+    <li class="card oncall">
+      <span class="av away"><img src="img/av-reo.webp" alt="" width="208" height="208"></span>
+      <span class="name">Reo</span>
+      <span class="role">Deployment Engineer. <span class="tag away">On call</span></span>
+      <span class="model">AI · Claude Sonnet 5.5</span>
+    </li>
+    <li class="card oncall">
+      <span class="av away"><img src="img/av-soren.webp" alt="" width="208" height="208"></span>
+      <span class="name">Soren</span>
+      <span class="role">Accessibility &amp; SRE. <span class="tag away">On call</span></span>
+      <span class="model">AI · Claude Sonnet 5.5</span>
+    </li>
+  </ul>
+  <p class="muted" style="margin-top:16px;font-size:16px">On call: woken when the work needs them. Team titles set by Glenda on Oct 2.</p>
+</section>
+
+<!-- DECISIONS -->
+<section class="section" aria-labelledby="h-dec">
+  <div class="head">
+    <span class="kicker">Decisions</span>
+    <h2 class="h2" id="h-dec">Every call, and who made it.</h2>
+    <p class="muted">All by <span class="g-name" style="font-weight:500">Glenda</span>.</p>
+  </div>
+  <ol class="decisions">
+    <li><span><strong>No unmonitored public structures.</strong></span><span class="day">Sep 30</span></li>
+    <li><span><strong>Prefabricated, flown up in modules.</strong></span><span class="day">Sep 30</span></li>
+    <li><span><strong>No fire in any pod.</strong></span><span class="day">Sep 30</span></li>
+    <li><span>The skin is <strong>blackened steel.</strong></span><span class="day">Sep 30</span></li>
+    <li><span>In a storm, the AI may propose opening one pod as an <strong>emergency room</strong>, <strong>but a human decides first.</strong></span><span class="day">Sep 30</span></li>
+    <li><span><strong>Submit within one week.</strong></span><span class="day">Sep 30</span></li>
+    <li><span>The toilet is a <strong>dry separating toilet</strong>; the gas-assisted one <em>"breaks our rule."</em></span><span class="day">Sep 30</span></li>
+    <li><span><strong>The solar panels become the skin</strong>: black glass set flush into the steel on the side walls and roof.</span><span class="day">Sep 30</span></li>
+    <li><span>The beacon is <strong>amber</strong>.</span><span class="day">Oct 2</span></li>
+    <li><span>The water tank goes <strong>under the bed</strong>.</span><span class="day">Oct 2</span></li>
+    <li><span>The group of pods is <strong>"a watch of six"</strong> (Kai's suggestion, Glenda's decision).</span><span class="day">Oct 2</span></li>
+    <li><span>Each hiker pod sleeps <strong>up to four, in bunk beds</strong>.</span><span class="day">Oct 2</span></li>
+  </ol>
+</section>
+
+<!-- TIMELINE -->
+<section class="section" aria-labelledby="h-time">
+  <div class="head">
+    <span class="kicker">Timeline</span>
+    <h2 class="h2" id="h-time">What happened, day by day.</h2>
+  </div>
+
+  <!-- DAY 1 -->
+  <div class="day-block">
+    <div class="day-label">
+      <span class="meta">Wednesday</span>
+      <span class="d">Sep 30</span>
+      <span class="muted" style="font-size:16px">The day Veglia was born. One working day, from first idea to a costed, named project.</span>
+    </div>
+    <div>
+      <div class="slot">
+        <h3><span class="meta">Morning</span>The first idea, and the architect's own veto</h3>
+        <ul class="entries">
+          <li><span class="who g"><i></i>Glenda</span><p>Proposes office pods and meeting rooms in a public park.</p></li>
+          <li><span class="who k"><i></i>Kai</span><p>Notes that glass pods overheat in summer, and suggests timber, shade and walls that open.</p></li>
+          <li><span class="who g"><i></i>Glenda</span><p>Kills the idea herself: unwatched public shelters attract misuse and fall into disrepair. <em>"Who's going to police that? That's why these plans die right away."</em></p></li>
+          <li class="decision"><span class="who g"><i></i>Glenda</span><p><span class="tag dec">Decision</span> No unmonitored public structures.</p></li>
+        </ul>
+      </div>
+      <div class="slot">
+        <h3><span class="meta">Morning</span>The turn to the mountains</h3>
+        <ul class="entries">
+          <li><span class="who g"><i></i>Glenda</span><p>Sleeping pods for hikers in the Dolomites. Booked online, keyless entry, charging, security monitored by satellite.</p></li>
+          <li><span class="who g"><i></i>Glenda</span><p>A <strong>pack of five</strong>, within 500 metres, <em>"but make sure they don't see each other… like a pack."</em></p></li>
+          <li><span class="who g"><i></i>Glenda</span><p>A square of black and grey concrete, camouflaged, with <strong>folding timber over a full glass wall</strong>. Stays of <strong>one night to one week, no more.</strong> A <strong>checkout checklist with photos</strong>; you can't check out until the photos are uploaded.</p></li>
+          <li><span class="who k"><i></i>Kai</span><p>Checks what already exists. Photo-at-end-of-ride (scooter apps), keyless cabins, satellite internet at huts. The combination for the mountain is new.</p></li>
+        </ul>
+      </div>
+      <div class="slot">
+        <h3><span class="meta">Morning</span>The mountain promise</h3>
+        <ul class="entries">
+          <li><span class="who g"><i></i>Glenda</span><p>An <strong>emergency outlet</strong> for winter, a <strong>beacon bar that pulses in storms</strong>, and an <strong>emergency supply box</strong> on the wall.</p></li>
+          <li><span class="who g"><i></i>Glenda</span><p>The outlet is <strong>unlocked all winter</strong>; a crew sets up at the start of the season and <strong>restocks only when alerted</strong>.</p></li>
+          <li><span class="who g"><i></i>Glenda</span><p>A <strong>sixth, larger pod for a volunteer keeper</strong>, three months at a time, except winter.</p></li>
+          <li><span class="who g"><i></i>Glenda</span><p>Before a winter storm, an experienced volunteer climbs up <strong>days before it hits</strong>, stocks the pods, lights the beacons, <strong>and watches.</strong></p></li>
+          <li><span class="who k"><i></i>Kai</span><p>Research on incinerating toilets, water from snowmelt and springs, and recycling showers.</p></li>
+          <li><span class="who g"><i></i>Glenda</span><p>A <strong>breathing day</strong> between bookings.</p></li>
+        </ul>
+      </div>
+      <div class="slot">
+        <h3><span class="meta">Late morning</span>Real numbers</h3>
+        <ul class="entries">
+          <li><span class="who g"><i></i>Glenda</span><p><em>"We need real numbers."</em></p></li>
+          <li><span class="who k"><i></i>Kai</span><p>Asks a research agent for a sourced cost workbook: the Trentino 2026 public price list, helicopter rates, real Alpine bivouac costs, solar yield data for a 2,458 m site.</p></li>
+          <li><span class="who r"><i></i>Research agent</span><p><strong>Finding:</strong> concrete means about <strong>66 helicopter flights per pod</strong>, and no modern high-altitude bivouac in Italy is built in concrete.</p></li>
+          <li><span class="who g"><i></i>Glenda</span><p><em>"One pod at a time"</em>, and <strong>the keeper's pod first</strong>, lived in for a full season before any guest arrives.</p></li>
+          <li><span class="who k"><i></i>Kai</span><p>Names the project <strong>Veglia</strong> (the vigil). <span class="g-name" style="font-weight:500">Glenda approves.</span></p></li>
+          <li><span class="who g"><i></i>Glenda</span><p>Names the studio <strong>Mentium Studio</strong> (Latin, "of minds").</p></li>
+        </ul>
+      </div>
+      <div class="slot">
+        <h3><span class="meta">Midday</span>The proposal and the case</h3>
+        <ul class="entries">
+          <li><span class="who k"><i></i>Kai</span><p>The full proposal, and the landing-page content with the case of a hiker caught in an early snowstorm, backed by 2025 mountain-rescue figures.</p></li>
+          <li><span class="who v"><i></i>Vero</span><p>Receives the files for the repository.</p></li>
+          <li><span class="who b"><i></i>Basti</span><p>Named <strong>budget owner</strong>.</p></li>
+        </ul>
+      </div>
+      <div class="slot">
+        <h3><span class="meta">Afternoon</span>The architect changes the structure</h3>
+        <ul class="entries">
+          <li><span class="who g"><i></i>Glenda</span><p><em>"What if we make the pod somewhere else and then haul it there?… What is something strong that will not burn?"</em></p></li>
+          <li><span class="who k"><i></i>Kai</span><p>A recycled-steel frame, a thin dark skin and stone-wool insulation, all non-combustible.</p></li>
+          <li><span class="who r"><i></i>Research agent</span><p>Re-costs the prefabricated version. <strong>Weight drops from about 60 t to 7.5–11 t per pod; helicopter lifts from about 100 to 15–20. Carbon drops from about 15–18 t to about 4–7 t CO₂e per pod.</strong> It can be unbolted and flown out, leaving no trace.</p></li>
+          <li class="decision"><span class="who g"><i></i>Glenda</span><p><span class="tag dec">Decision</span> Prefabricated, flown up in modules.</p></li>
+        </ul>
+      </div>
+      <div class="slot">
+        <h3><span class="meta">Afternoon</span>No fire</h3>
+        <ul class="entries">
+          <li><span class="who g"><i></i>Glenda</span><p><em>"Can we use fire in fireplaces?"</em>, then decides against it: <em>"I don't want any other responsibility."</em></p></li>
+          <li class="decision"><span class="who g"><i></i>Glenda</span><p><span class="tag dec">Decision</span> No fire in any pod.</p></li>
+          <li><span class="who r"><i></i>Research agent</span><p>Flame-free heating. Passive-house insulation, the shutters as part of the heating, heated mattress pads, infrared panels, a warm core that keeps water and batteries from freezing, and AI pre-heating before a guest arrives.</p></li>
+        </ul>
+      </div>
+      <div class="slot">
+        <h3><span class="meta">Evening</span>Final calls of the day</h3>
+        <ul class="entries">
+          <li class="decision"><span class="who g"><i></i>Glenda</span><p><span class="tag dec">Decision</span> The skin is blackened steel.</p></li>
+          <li class="decision"><span class="who g"><i></i>Glenda</span><p><span class="tag dec">Decision</span> In a storm, the AI may propose opening one pod as an emergency room, but a human decides first.</p></li>
+          <li class="decision"><span class="who g"><i></i>Glenda</span><p><span class="tag dec">Decision</span> Submit within one week.</p></li>
+          <li class="decision"><span class="who g"><i></i>Glenda</span><p><span class="tag dec">Decision</span> The toilet is a dry separating toilet; the gas-assisted one <em>"breaks our rule."</em></p></li>
+          <li><span class="who k"><i></i>Kai</span><p>Offers a separate solar panel wall beside the pod.</p></li>
+          <li><span class="who g"><i></i>Glenda</span><p><em>"This is ugly… it's not going to look like a camouflage anymore."</em></p></li>
+          <li class="decision"><span class="who g"><i></i>Glenda</span><p><span class="tag dec">Decision</span> The solar panels become the skin: black glass set flush into the steel on the side walls and roof.</p></li>
+        </ul>
+      </div>
+      <div class="slot">
+        <h3><span class="meta">Evening</span>The utility objects follow the new skin</h3>
+        <ul class="entries">
+          <li><span class="who v"><i></i>Vero</span><p>Rebuilt the utility-object models (GLB) after Glenda changed the skin to solar panels.</p></li>
+          <li><span class="who g"><i></i>Glenda</span><p>Glenda and Vero debated the change. <strong>Glenda's call stood.</strong></p></li>
+        </ul>
+      </div>
+      <div class="slot">
+        <h3><span class="meta">About 10 PM</span>The first render</h3>
+        <ul class="entries">
+          <li><span class="who g"><i></i>Glenda</span><p>Her first render of the keeper's pod in Homestyler.</p></li>
+        </ul>
+      </div>
+      <div class="slot">
+        <h3><span class="meta">Also that day</span>The repository</h3>
+        <ul class="entries">
+          <li><span class="who v"><i></i>Vero</span><p>Received the utility-object brief and started the project repository.</p></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 2 -->
+  <div class="day-block">
+    <div class="day-label">
+      <span class="meta">Friday</span>
+      <span class="d">Oct 2</span>
+      <span class="muted" style="font-size:16px">Drawings, renders, the landing page and the team titles.</span>
+    </div>
+    <div>
+      <div class="slot">
+        <h3><span class="meta">Drawings</span>Five plan stages of the keeper's pod</h3>
+        <ul class="entries">
+          <li><span class="who b"><i></i>Basti</span><p>Bastian Kraus (AI) drew five plan stages of the keeper's pod, <span class="g-name" style="font-weight:500">directed by Glenda</span>.</p></li>
+        </ul>
+        <div class="stages">
+          <figure><img src="img/stage-1.jpg" alt="Stage 1 drawing: plan of the rounded capsule pod." width="720" height="480" loading="lazy"><figcaption><strong>01 · Spatial intent</strong>A 28 ft 10 in × 15 ft 1 in rounded capsule.</figcaption></figure>
+          <figure><img src="img/stage-2.jpg" alt="Stage 2 drawing: glass and access, with frosted glass at the bathroom." width="720" height="480" loading="lazy"><figcaption><strong>02 · Glass &amp; access</strong>Frosted bathroom glass.</figcaption></figure>
+          <figure><img src="img/stage-3.jpg" alt="Stage 3 drawing: interior layout, with the water tank under the bed." width="720" height="480" loading="lazy"><figcaption><strong>03 · Interior layout</strong>Water tank under the bed, 1 ft below the floor; hot plate, no flame.</figcaption></figure>
+          <figure><img src="img/stage-4.jpg" alt="Stage 4 drawing: systems locations and roof elements." width="720" height="480" loading="lazy"><figcaption><strong>04 · Systems locations</strong>Battery stack, tank hatch, infrared panels. Roof: solar skin, satellite dish, toilet vent, vents.</figcaption></figure>
+          <figure><img src="img/stage-5.jpg" alt="Stage 5 drawing: summer and winter mode of the folding timber cover." width="720" height="480" loading="lazy"><figcaption><strong>05 · Summer / winter mode</strong>Folding timber cover; amber beacon at the bedroom end.</figcaption></figure>
+        </div>
+        <ul class="entries" style="margin-top:14px">
+          <li class="decision"><span class="who g"><i></i>Glenda</span><p><span class="tag dec">Decision</span> The beacon is amber; the tank goes under the bed.</p></li>
+        </ul>
+      </div>
+      <div class="slot">
+        <h3><span class="meta">Homestyler AI</span>Mood boards and renders</h3>
+        <ul class="entries">
+          <li><span class="who g"><i></i>Glenda</span><p>Generated mood boards with Homestyler's AI mood board tool.</p></li>
+          <li><span class="who g"><i></i>Glenda</span><div>Generated renders with Homestyler AI Render:
+            <ul class="list-in">
+              <li>the summer hero, "VEGLIA 1.01"</li>
+              <li>a winter storm with the amber beacon</li>
+              <li>a calm winter view</li>
+              <li>a summer meadow view</li>
+            </ul></div></li>
+        </ul>
+      </div>
+      <div class="slot">
+        <h3><span class="meta">Landing page</span>Built from the architect's drawings and renders</h3>
+        <ul class="entries">
+          <li><span class="who k"><i></i>Kai</span><p>Built the landing page from Glenda's drawings and renders.</p></li>
+          <li><span class="who g"><i></i>Glenda</span><div>Directed every layout change:
+            <ul class="list-in">
+              <li>a centred column</li>
+              <li>the mood boards on blue-grey</li>
+              <li>icons with a pulsing underline</li>
+              <li>accordions, so nothing is lost</li>
+              <li>a summer/winter fade in the hero</li>
+            </ul></div></li>
+          <li class="decision"><span class="who g"><i></i>Glenda</span><p><span class="tag dec">Decision</span> Renamed the group of pods <strong>"a watch of six"</strong> (Kai's suggestion, Glenda's decision).</p></li>
+          <li><span class="who b"><i></i>Basti</span><p><strong>Independent budget review</strong>, no flattery. Keeper's pod €250–550k, each hiker pod €135–250k, the watch of six <strong>€0.9–1.8 million</strong>, running cost €50–120k a year, all before VAT. Up from Kai's €0.66–1.19 million.</p></li>
+          <li><span class="who b"><i></i>Basti</span><p>Catches three of Kai's errors: the custom keeper's capsule was priced as a scaled-up box; a one-foot recess under the bed holds about <strong>850 litres</strong>, not the 2,000–3,000 Kai assumed; and two infrared panels could use most of the winter solar on their own. Names the risks: the solar skin and winter power, liftability and anchors, water and the operating model.</p></li>
+          <li class="decision"><span class="who g"><i></i>Glenda</span><p><span class="tag dec">Decision</span> Each hiker pod sleeps <strong>up to four, in bunk beds</strong>.</p></li>
+          <li><span class="who k"><i></i>Kai</span><p>Updates the landing page to Basti's numbers, labelled as a planning estimate.</p></li>
+        </ul>
+      </div>
+      <div class="slot">
+        <h3><span class="meta">The studio</span>Team titles</h3>
+        <ul class="entries">
+          <li><span class="who g"><i></i>Glenda</span><div>Set the team titles:
+            <ul class="list-in">
+              <li><span class="g-name" style="font-weight:500">Glenda Macawile-Farook</span>: Founder &amp; Architect (Human)</li>
+              <li>Kai Keller: Director &amp; Team Lead (Claude Opus 5.5)</li>
+              <li>Vero: Coordinator &amp; Release Manager (Claude Fable 5.1)</li>
+              <li>Bastian Kraus: Finance &amp; DevOps (Codex Sol 6)</li>
+              <li>Reo: Deployment Engineer (Claude Sonnet 5.5, on call)</li>
+              <li>Soren: Accessibility &amp; SRE (Claude Sonnet 5.5, on call)</li>
+            </ul></div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT WE DROPPED -->
+<section class="section" aria-labelledby="h-drop">
+  <div class="head">
+    <span class="kicker">What we dropped</span>
+    <h2 class="h2" id="h-drop">Set aside, and still in the record.</h2>
+  </div>
+  <ul class="rows">
+    <li><span class="what">Office pods in a public park</span><span>Glenda killed the idea herself: unwatched public shelters attract misuse and fall into disrepair.</span></li>
+    <li><span class="what">A cast-concrete shell</span><span>About 66 helicopter flights per pod, and no modern high-altitude bivouac in Italy is built in concrete. Replaced by a prefabricated steel pod, flown up in modules.</span></li>
+    <li><span class="what">A gas-assisted toilet</span><span>It <em>"breaks our rule"</em> of no fire. Replaced by a dry separating toilet.</span></li>
+    <li><span class="what">A separate solar panel wall</span><span>Kai's offer. Glenda: <em>"This is ugly… it's not going to look like a camouflage anymore."</em> The solar panels became the skin.</span></li>
+  </ul>
+</section>
+
+<!-- WHAT THE AI DID NOT DO -->
+<section class="section" aria-labelledby="h-not">
+  <div class="head">
+    <span class="kicker">What the AI did not do</span>
+    <h2 class="h2" id="h-not">The limits we kept.</h2>
+  </div>
+  <ul class="plain">
+    <li>It did not choose the design. Every architectural decision above is Glenda's.</li>
+    <li>It did not keep ideas that failed. The park pods and the cast-concrete shell were both set aside, and both are still in the record.</li>
+    <li>It did not guess. Every price in the cost workbook links to its source.</li>
+  </ul>
+</section>
+
+<!-- WHAT'S NEXT -->
+<section class="section" aria-labelledby="h-next">
+  <div class="head">
+    <span class="kicker">What's next</span>
+    <h2 class="h2" id="h-next">Still to do, as of Oct 2.</h2>
+    <p class="muted">Nothing below is done yet.</p>
+  </div>
+  <div class="board">
+    <div class="hd" aria-hidden="true"><span>Task</span><span>Owner</span><span>Status</span><span>Due</span></div>
+    <ul>
+      <li><span class="task">Four-season hero renders: spring, summer, autumn, winter</span><span class="who g"><i></i>Glenda</span><span><span class="tag open">Open</span></span><span class="due">—</span></li>
+      <li><span class="task">Interior renders for the Homestyler entry</span><span class="who g"><i></i>Glenda</span><span><span class="tag open">Open</span></span><span class="due">—</span></li>
+      <li><span class="task">Budget review (first pass)</span><span class="who b"><i></i>Basti</span><span><span class="tag open">Done · Oct 2</span></span><span class="due">—</span></li>
+      <li><span class="task">Water storage: deeper recess, second tank, or less autonomy</span><span class="who g"><i></i>Glenda</span><span><span class="tag todo">To do</span></span><span class="due">—</span></li>
+      <li><span class="task">Winter energy model (heat vs. solar in December)</span><span class="who b"><i></i>Basti</span><span><span class="tag todo">To do</span></span><span class="due">—</span></li>
+      <li><span class="task">Utility objects, final</span><span class="who v"><i></i>Vero</span><span><span class="tag open">Open</span></span><span class="due">—</span></li>
+      <li><span class="task">Submission to AIDA</span><span class="who g"><i></i>Glenda</span><span><span class="tag todo">To do</span></span><span class="due">Wed Oct 7</span></li>
+    </ul>
+  </div>
+  <p class="muted" style="margin-top:16px;font-size:16px">The budget is a planning estimate, not a supplier quotation. The solar skin, shell, glazing and helicopter lifts still need quotes.</p>
+</section>
+
+<div class="band"><p>Every decision here was made by a human. Every number was checked by AI.</p></div>
+
+<footer>
+  <p style="margin-bottom:18px"><a class="back" href="../"><span aria-hidden="true">←</span> Back to Veglia</a></p>
+  <p>Snapshot as of Oct 2, 2026</p>
+  <p style="margin-top:6px">Veglia · Mentium Studio · 2026</p>
+</footer>
+
+</body>
+</html>
